@@ -1,0 +1,286 @@
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f5f5f5;
+}
+body.login-page,
+body.body-reg,
+body.body-new-task {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #74b9ff, #a29bfe);
+
+    /* Căn giữa khung form */
+    display: flex;
+    justify-content: center;  /* căn giữa ngang */
+    align-items: center;      /* căn giữa dọc */
+    height: 100vh;            /* chiếm toàn màn hình */
+    margin: 0;
+}
+
+header.hero {
+    background: linear-gradient(135deg, #6e97de 0%, #2575fc 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+header.hero h1 {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+header.hero p {
+    margin: 0.5rem 0 0 0;
+    font-size: 1.2rem;
+}
+
+/* CSS user info */
+.user-info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(90deg, #f9fafb, #eef2ff);
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.user-info span {
+    font-weight: 600;
+    color: #4f46e5; /* tím nhạt hiện đại */
+    font-size: 1rem;
+    background-color: #e0e7ff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+}
+
+.user-info a button {
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.user-info a button:hover {
+    background-color: #4338ca;
+    transform: scale(1.03);
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+}
+
+
+/* Tasks container */
+.tasks-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 2rem;
+    justify-content: center;
+}
+
+.task-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem;
+    width: 250px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.task-card.purple { border-left: 5px solid #8e44ad; }
+.task-card.yellow { border-left: 5px solid #f1c40f; }
+
+.task-title { font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem; }
+.task-desc { font-size: 0.9rem; color: #555; margin-bottom: 1rem; }
+
+.task-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+.task-actions button { 
+    cursor: pointer;
+    padding: 0.3rem 0.6rem;
+    border: none;
+    border-radius: 4px;
+    background: #3498db;
+    color: white;
+    font-size: 0.9rem;
+}
+.task-actions form button { background: #e74c3c; }
+
+.add-task-btn {
+    display: block;           /* đổi inline-block thành block */
+    margin: 2rem auto;        /* auto căn giữa ngang */
+    padding: 0.6rem 1.2rem;
+    background: #2ecc71;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+    width: fit-content;       /* giữ kích thước vừa nội dung */
+}
+.add-task-btn:hover { background: #27ae60; }
+.auth-card {
+    background: white;
+    padding: 2.5rem 3rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 320px;
+    text-align: center;
+}
+
+/* Tiêu đề */
+.auth-card h1 {
+    color: #2d3436;
+    margin-bottom: 1.5rem;
+}
+
+/* Input */
+.auth-card input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.2s ease;
+}
+
+.auth-card input:focus {
+    outline: none;
+    border-color: #0984e3;
+}
+
+/* Nút đăng nhập */
+.auth-card button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #0984e3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.auth-card button:hover {
+    background: #74b9ff;
+    transform: scale(1.02);
+}
+
+/* Đoạn text bên dưới */
+.auth-card p {
+    margin-top: 1rem;
+    color: #636e72;
+}
+
+/* Link đăng ký */
+.register-link {
+    color: #0984e3;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.register-link:hover {
+    text-decoration: underline;
+}
+
+/* Hiển thị lỗi */
+.error {
+    background-color: #ff7675;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* ========== New Task Page ========== */
+body.body-new-task {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #55efc4, #74b9ff);
+    display: flex;
+    justify-content: center;   /* căn giữa ngang */
+    align-items: center;       /* căn giữa dọc */
+    height: 100vh;
+    margin: 0;
+}
+
+/* Form tạo task mới */
+.add-task-form {
+    background: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 360px;
+    text-align: center;
+}
+
+/* Tiêu đề form */
+.add-task-form h2 {
+    margin-bottom: 1.5rem;
+    color: #2d3436;
+}
+
+/* Input, textarea, select */
+.add-task-form input,
+.add-task-form textarea,
+.add-task-form select {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.6rem 0;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border 0.2s ease;
+    font-family: inherit;
+}
+
+/* Khi focus */
+.add-task-form input:focus,
+.add-task-form textarea:focus,
+.add-task-form select:focus {
+    outline: none;
+    border-color: #0984e3;
+}
+
+/* Nút tạo task */
+.add-task-form button {
+    width: 100%;
+    padding: 0.8rem;
+    background: #00b894;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.add-task-form button:hover {
+    background: #55efc4;
+    transform: scale(1.03);
+}
+
+/* Responsive nhỏ gọn trên mobile */
+@media (max-width: 480px) {
+    .add-task-form {
+        width: 90%;
+        padding: 1.5rem;
+    }
+}

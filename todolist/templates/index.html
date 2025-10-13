@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO DO LIST</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+<body>
+    <header class="hero">
+        <h1 id="greeting">Hello World</h1>
+        <p id="subtext">TO DO LIST</p>
+    </header>    
+
+    <div class="user-info"> 
+        {% if user %}
+            <span>Logged in as {{ user.name }}</span>
+            <a href="/logout"><button>Logout</button></a>
+        {% endif %}
+    </div>
+
+<div class="tasks-container">
+    {% for task in tasks %}
+    <div class="task-card {{ 'purple' if loop.index is even else 'yellow' }}">
+        <div class="task-header">
+            <h3 class="task-title">{{ task.title }}</h3>
+            <p class="task-deadline">
+                {% if task.deadline %}
+                    Due: {{ task.deadline.strftime('%Y-%m-%d %H:%M') }}
+                {% endif %}
+            </p>
+        </div>
+
+        {% if task.description %}
+        <p class="task-desc">{{ task.description }}</p>
+        {% endif %}
+
+        <div class="task-actions">
+            <button type="button" class="edit-btn" onclick="editTask({{ task.id }})">
+                ✏️ Edit
+            </button>
+            <form method="post" action="/tasks/{{ task.id }}/delete" class="inline-form">
+                <button type="submit" class="delete-btn">🗑️ Delete</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+    <a href="/add_task" class="add-task-btn">+ Add New Task</a>
+
+    <script>
+    function editTask(taskId){
+        const newTitle = prompt("Edit Task");
+        if(newTitle){
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/tasks/${taskId}/update`;
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'title';
+            input.value = newTitle;
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+    function deleteTask(taskId){
+        
+    }
+    </script>
+</body>
+</html>
