@@ -14,10 +14,18 @@
 
     <div class="user-info"> 
         {% if user %}
-            <span>Logged in as {{ user.name }}</span>
+            <span>{{ user.name }}</span>
             <a href="/logout"><button>Logout</button></a>
         {% endif %}
+        {% if not user %}
+            <a href="/login"><button>Login</button></a>
+            <a href="/register"><button>Register</button></a>
+        {% endif %}
     </div>
+    {% if user %}
+             <a href="/add_task" class="add-task-btn">+ Add New Task</a>
+    {% endif %}
+    
 
 <div class="tasks-container">
     {% for task in tasks %}
@@ -46,11 +54,68 @@
     </div>
     {% endfor %}
 </div>
+{%if not user%}
+<div id="chatbot-container">
+    <div id="chatbot-header" onclick="toggleChatbot()">
+        💬 AI Chat
+    </div>
+    <div id="chatbot-body" style="display:none;">
+        <div id="chatbot-messages"></div>
+        <div id="chatbot-input-container">
+            <input type="text" id="chatbot-input" placeholder="Type a message..." 
+                   onkeypress="if(event.key==='Enter'){sendMessage();}">
+            <span id="chatbot-send-icon" onclick="sendMessage()">➤</span>
+        </div>
+    </div>
+</div>
+<div id="news-widget" class="news-widget">
+  <div id="news-bg" class="news-bg"></div>
+  <h2 class="news-title">📰 Tin tức mới nhất về AI</h2>
+  <div id="news-container" class="news-container"></div>
+</div>
+{%endif%}
+{%if user%}
+<div id="chatbot-container">
+    <div id="chatbot-header" onclick="toggleChatbot()">
+        💬 AI Chat @
+    </div>
+    <div id="chatbot-body" style="display:none;">
+        <div id="chatbot-messages"></div>
+        <div id="chatbot-input-container">
+            <input type="text" id="chatbot-input" placeholder="Type a message..." 
+                   onkeypress="if(event.key==='Enter'){sendMessagefromUser();}">
+            <span id="chatbot-send-icon" onclick="sendMessagefromUser()">➤</span>
+        </div>
+    </div>
+</div>
+{%endif%}
 
-
-    <a href="/add_task" class="add-task-btn">+ Add New Task</a>
+   
 
     <script>
+         function getGreetingParts(date = new Date()) {
+  const h = date.getHours();
+  if (h >= 5 && h < 12)   // Morning until 11:59 AM
+      return { text: "Good Morning",  emoji: "", sub: "Chúc bạn có một buổi sáng thật bùng lổ !!!!" };
+  if (h >= 12 && h < 16)  // 12:00 PM - 3:59 PM
+      return { text: "Good Afternoon", emoji: "", sub: "Nếu chiều buồn ngủ thì hãy làm một tách cafe nhé !!!" };
+  if (h >= 16 && h < 20)  // 4:00 PM - 7:59 PM
+      return { text: "Good Evening",   emoji: "", sub: "Tối là lúc thích hợp để check lại todolist" };
+  return { text: "Good Night", emoji: "", sub: "Ngủ Thôiiiiiiiiiiiiiiii" };
+}
+
+function updateGreeting() {
+  const { text, emoji, sub } = getGreetingParts();
+  document.getElementById("greeting").innerHTML = `${emoji} ${text}`;
+  document.getElementById("subtext").innerText = sub;
+}
+
+
+  // Run immediately on page load
+  document.addEventListener("DOMContentLoaded", () => {
+    updateGreeting();
+    setInterval(updateGreeting, 60_000); // update every 1 minute
+  });
     function editTask(taskId){
         const newTitle = prompt("Edit Task");
         if(newTitle){
@@ -67,8 +132,153 @@
         }
     }
     function deleteTask(taskId){
-        
+         
     }
-    </script>
+   function toggleChatbot(){
+    const body = document.getElementById('chatbot-body');
+    body.style.display = (body.style.display === 'none') ? 'flex' : 'none';
+}
+
+async function sendMessage(){
+    const input = document.getElementById('chatbot-input');
+    const messages = document.getElementById('chatbot-messages');
+    const text = input.value.trim();
+    if(!text) return;
+
+    const userDiv = document.createElement('div');
+    userDiv.classList.add('message','user');
+    userDiv.textContent = text;
+    messages.appendChild(userDiv);
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    const botDiv = document.createElement('div');
+    botDiv.classList.add('message','bot');
+    botDiv.textContent = "Typing...";
+    messages.appendChild(botDiv);
+    await new Promise(r => setTimeout(r, 50)); 
+    messages.scrollTop = messages.scrollHeight;
+
+
+    try {
+        const res = await fetch("http://127.0.0.1:8000/chat", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({message: text})
+        });
+        const data = await res.json();
+        botDiv.textContent = data.reply;
+        messages.scrollTop = messages.scrollHeight;
+    } catch(err){
+        botDiv.textContent = "Error connecting to AI.";
+    }
+}
+async function sendMessagefromUser() {
+    const input = document.getElementById('chatbot-input');
+    const messages = document.getElementById('chatbot-messages');
+    const text = input.value.trim(); // Biến của bạn tên là 'text'
+    if (!text) return;
+
+    // Hiển thị tin nhắn của user
+    const userDiv = document.createElement('div');
+    userDiv.classList.add('message', 'user');
+    userDiv.textContent = text;
+    messages.appendChild(userDiv);
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    // Hiển thị "Typing..."
+    const botDiv = document.createElement('div');
+    botDiv.classList.add('message', 'bot');
+    botDiv.textContent = "Typing...";
+    messages.appendChild(botDiv);
+    await new Promise(r => setTimeout(r, 50));
+    messages.scrollTop = messages.scrollHeight;
+
+    // Sử dụng try...catch để gọi API
+    try {
+        const response = await fetch('http://localhost:8000/chat_with_user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // SỬA LỖI 1: Dùng biến 'text' thay vì 'userMessage'
+            body: JSON.stringify({ message: text }),
+            
+            // Dòng này của bạn đã CHÍNH XÁC
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+             // Báo lỗi nếu server trả về 4xx, 5xx
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        botDiv.textContent = data.reply; // Cập nhật tin nhắn của bot
+        
+    } catch (error) {
+        // SỬA LỖI 2: Xử lý lỗi đúng cách
+        console.error('Error fetching chat:', error); // Ghi log lỗi ra console
+        botDiv.textContent = "Error connecting to AI.";
+    }
+
+    // Luôn cuộn xuống cuối sau khi có kết quả hoặc lỗi
+    messages.scrollTop = messages.scrollHeight;
+}
+async function loadNews() {
+  const container = document.getElementById('news-container');
+  const bg = document.getElementById('news-bg');
+  container.innerHTML = "<p>Đang tải tin tức mới nhất...</p>";
+
+  try {
+    const res = await fetch("https://newsdata.io/api/1/latest?apikey=pub_d8a6b56ba719427eb8654e803985f053&q=AI&language=vi,en");
+    const data = await res.json();
+
+    container.innerHTML = "";
+
+    const results = data.results || [];
+    if (results.length === 0) {
+      container.innerHTML = "<p>Không có tin tức nào được tìm thấy.</p>";
+      return;
+    }
+
+    // 🖼 Lấy ảnh đầu tiên làm nền widget
+    const firstImage = results.find(a => a.image_url)?.image_url;
+    bg.style.backgroundImage = `url('${firstImage || "https://via.placeholder.com/1200x700?text=AI+News"}')`;
+
+    // Hiển thị tin
+    results.slice(0, 6).forEach(article => {
+      const div = document.createElement("div");
+      div.className = "news-item";
+
+      const imageUrl = article.image_url || "https://via.placeholder.com/400x250?text=AI+News";
+
+      div.innerHTML = `
+        <div class="news-image-wrapper">
+          <img src="${imageUrl}" alt="news image" class="news-image" />
+        </div>
+        <div class="news-content">
+          <a href="${article.link}" target="_blank">${article.title || "Không có tiêu đề"}</a>
+          <p class="news-desc">${article.description ? article.description.slice(0, 90) + "..." : "Không có mô tả."}</p>
+          <p class="news-source">${article.source_id ? "Nguồn: " + article.source_id : ""}</p>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = "<p>Lỗi khi tải tin tức.</p>";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadNews);
+
+window.addEventListener("load", () => {
+    fetch("/reload_event", { method: "POST" });
+});
+
+</script>
 </body>
 </html>

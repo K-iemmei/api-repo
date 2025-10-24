@@ -284,3 +284,236 @@ body.body-new-task {
         padding: 1.5rem;
     }
 }
+#chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    z-index: 9999;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Header */
+#chatbot-header {
+    background-color: #4a90e2;
+    color: white;
+    padding: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Chat body */
+#chatbot-body {
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+    border-top: 1px solid #ccc;
+}
+
+/* Messages container */
+#chatbot-messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Bubble messages */
+.message {
+    max-width: 75%;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    border-radius: 18px;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+
+
+
+.message.user {
+    align-self: flex-end;
+    background-color: #4a90e2;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+
+.message.bot {
+    align-self: flex-start;
+    background-color: #e5e5ea;
+    color: black;
+    border-bottom-left-radius: 4px;
+}
+
+/* Input area */
+#chatbot-input-container {
+    display: flex;
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+    align-items: center;
+}
+
+/* Input */
+#chatbot-input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+/* Send icon */
+#chatbot-send-icon {
+    width: 40px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 18px;
+    color: #4a90e2;
+    user-select: none;
+}
+#chatbot-send-icon:hover {
+    color: #357ABD;
+}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+body {
+  background: #f0f2f5;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Widget chính */
+.news-widget {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: 30px 24px;
+  max-width: 980px;
+  margin: 30px auto;
+  color: #222;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+  font-family: 'Inter', sans-serif;
+}
+
+/* 🌈 Nền động từ ảnh bài báo đầu tiên */
+.news-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  filter: blur(14px) brightness(0.6);
+  transform: scale(1.1);
+  z-index: 0;
+}
+
+.news-widget::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.45);
+  z-index: 1;
+  backdrop-filter: blur(2px);
+}
+
+/* Tiêu đề */
+.news-title {
+  position: relative;
+  z-index: 2;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* Lưới tin */
+.news-container {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+/* Card tin */
+.news-item {
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.news-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* Ảnh: cùng kích cỡ cố định */
+.news-image-wrapper {
+  width: 100%;
+  height: 130px; /* 📏 ảnh nhỏ cố định */
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.news-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.news-item:hover .news-image {
+  transform: scale(1.05);
+}
+
+/* Nội dung bài */
+.news-content {
+  padding: 12px 14px 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.news-content a {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0056d6;
+  text-decoration: none;
+  line-height: 1.4;
+}
+
+.news-content a:hover {
+  text-decoration: underline;
+  color: #0041a8;
+}
+
+.news-desc {
+  font-size: 0.88rem;
+  color: #444;
+  margin: 8px 0 10px;
+  flex-grow: 1;
+  line-height: 1.45;
+}
+
+.news-source {
+  font-size: 0.78rem;
+  color: #666;
+  text-align: right;
+}

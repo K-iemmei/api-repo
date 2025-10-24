@@ -11,7 +11,12 @@
         <h2>New Task</h2>
         <input type="text" name="title" placeholder="Task Name" required>
         <textarea name="description" placeholder="Task description" rows="4"></textarea>
-        <input type="datetime-local" name="deadline" placeholder="Task Deadline">
+        <input 
+            type="text"
+            name="deadline"
+            placeholder="Task Deadline (YYYY-MM-DD HH:MM)"
+            pattern="\d{4}-\d{2}-\d{2} \d{2}:\d{2}"
+            >
         <select name="category">
             <option value="">Select Category</option>
             <option value="work">Work</option>

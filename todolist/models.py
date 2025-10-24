@@ -23,3 +23,4 @@ class Task(Base):
 
     # 👇 Liên kết đến User
     owner = relationship("User", back_populates="tasks")
+
